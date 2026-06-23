@@ -1,6 +1,6 @@
 <div align="center">
   <!-- TIPS: Ganti URL_GAMBAR_LU dengan link screenshot dashboard Second Brain lu yang keren itu! -->
-  <img alt="Second Brain Dashboard" src="URL_GAMBAR_LU" width="1000" />
+  <img alt="Second Brain Dashboard" src="./secondbraindashboard.png" width="1000" />
 </div>
 
 # 🧠 Second Brain: Production-Grade Productivity Workspace
