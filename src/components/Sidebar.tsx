@@ -16,6 +16,8 @@ interface SidebarProps {
   onLogout: () => void;
   onOpenProfile: () => void;
   onResetDatabase?: () => void;
+  mobileMenuOpen?: boolean;
+  onToggleMobileMenu?: () => void;
 }
 
 export default React.memo(function Sidebar({
@@ -25,7 +27,9 @@ export default React.memo(function Sidebar({
   onSelectTag,
   onLogout,
   onOpenProfile,
-  onResetDatabase
+  onResetDatabase,
+  mobileMenuOpen,
+  onToggleMobileMenu
 }: SidebarProps) {
   // Extract user-specific tags dynamically with memoization
   const userNotes = useMemo(() => notes.filter((n) => n.userId === currentUser.id), [notes, currentUser.id]);
@@ -66,22 +70,35 @@ export default React.memo(function Sidebar({
 
   const uniqueTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 
-  return (
-    <div id="app-sidebar" className="w-64 max-md:w-full bg-[#09090b] border-r border-[#27272a] flex flex-col h-screen max-md:h-auto select-none p-4 shrink-0 justify-between">
+  const sidebarContent = (
+    <>
       {/* Top Brand Logo */}
       <div className="space-y-6">
-        <div className="flex items-center gap-3 px-2 py-1">
-          <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center ring-1 ring-blue-500/20">
-            <Brain className="w-5 h-5 text-white" />
+        <div className="flex items-center justify-between gap-3 px-2 py-1">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center ring-1 ring-blue-500/20">
+              <Brain className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h1 className="font-display font-semibold text-sm text-[#fafafa] tracking-wide">
+                Second Brain
+              </h1>
+              <span className="text-[9px] text-[#71717a] font-mono tracking-wider uppercase block">
+                Node V.2.1.0_PROD
+              </span>
+            </div>
           </div>
-          <div>
-            <h1 className="font-display font-semibold text-sm text-[#fafafa] tracking-wide">
-              Second Brain
-            </h1>
-            <span className="text-[9px] text-[#71717a] font-mono tracking-wider uppercase block">
-              Node V.2.1.0_PROD
-            </span>
-          </div>
+          {onToggleMobileMenu && (
+            <button
+              type="button"
+              onClick={onToggleMobileMenu}
+              className="md:hidden p-1.5 rounded text-[#71717a] hover:text-white hover:bg-[#27272a] transition cursor-pointer"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
         </div>
 
         {/* User Card */}
@@ -121,7 +138,7 @@ export default React.memo(function Sidebar({
             Workspace
           </span>
           <button
-            onClick={() => handleSelectTag(null)}
+            onClick={() => { handleSelectTag(null); if (onToggleMobileMenu) onToggleMobileMenu(); }}
             type="button"
             className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition cursor-pointer ${
               selectedTag === null
@@ -157,7 +174,7 @@ export default React.memo(function Sidebar({
                 return (
                   <button
                     key={tag}
-                    onClick={() => handleSelectTag(isActive ? null : tag)}
+                    onClick={() => { handleSelectTag(isActive ? null : tag); if (onToggleMobileMenu) onToggleMobileMenu(); }}
                     type="button"
                     className={`w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs transition cursor-pointer capitalize ${
                       isActive
@@ -203,6 +220,32 @@ export default React.memo(function Sidebar({
           <span>Exit Workspace</span>
         </button>
       </div>
-    </div>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile overlay backdrop */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 md:hidden"
+          onClick={onToggleMobileMenu}
+        />
+      )}
+
+      {/* Mobile drawer */}
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-[#09090b] border-r border-[#27272a] flex flex-col select-none p-4 shrink-0 justify-between transform transition-transform duration-200 ease-in-out md:hidden ${
+          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {sidebarContent}
+      </div>
+
+      {/* Desktop sidebar */}
+      <div id="app-sidebar" className="hidden md:flex w-64 bg-[#09090b] border-r border-[#27272a] flex-col h-screen select-none p-4 shrink-0 justify-between">
+        {sidebarContent}
+      </div>
+    </>
   );
 });

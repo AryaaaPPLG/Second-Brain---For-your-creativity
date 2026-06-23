@@ -31,6 +31,7 @@ export default function App() {
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Initialize storage and cache on launch
   useEffect(() => {
@@ -217,6 +218,8 @@ export default function App() {
             onLogout={handleLogout}
             onOpenProfile={() => setIsProfileOpen(true)}
             onResetDatabase={handleResetDatabase}
+            mobileMenuOpen={mobileMenuOpen}
+            onToggleMobileMenu={() => setMobileMenuOpen(!mobileMenuOpen)}
           />
 
           {/* Core Dashboard Stage */}
@@ -228,6 +231,7 @@ export default function App() {
             onEditNote={handleEditNote}
             onCreateNote={handleCreateNewNote}
             onDeleteNote={handleDeleteNote}
+            onToggleMobileMenu={() => setMobileMenuOpen(!mobileMenuOpen)}
           />
 
           {/* Sliding Editor Console */}

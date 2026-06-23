@@ -29,6 +29,7 @@ interface DashboardProps {
   onEditNote: (note: Note) => void;
   onCreateNote: () => void;
   onDeleteNote: (noteId: string) => void;
+  onToggleMobileMenu?: () => void;
 }
 
 const COLOR_MAP: Record<string, { border: string; bg: string; text: string; lightBg: string }> = {
@@ -47,7 +48,8 @@ export default React.memo(function Dashboard({
   onSelectTag,
   onEditNote,
   onCreateNote,
-  onDeleteNote
+  onDeleteNote,
+  onToggleMobileMenu
 }: DashboardProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -120,16 +122,29 @@ export default React.memo(function Dashboard({
 
       {/* Header and Quick Tools */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <div>
-          <span className="text-blue-500 font-mono text-[10px] tracking-widest uppercase block mb-1">
-            Isolated Sandbox
-          </span>
-          <h1 className="font-display font-bold text-3xl text-white tracking-tight flex items-center gap-2">
-            Secure Nodes Dashboard
-          </h1>
-          <p className="text-[#a1a1aa] text-xs mt-1">
-            Analyzing index workspace for <span className="text-[#fafafa] font-semibold">{currentUser.name}</span>. Encryption protocol active.
-          </p>
+        <div className="flex items-start gap-3 w-full md:w-auto">
+          {onToggleMobileMenu && (
+            <button
+              type="button"
+              onClick={onToggleMobileMenu}
+              className="md:hidden mt-1 p-2 rounded-lg text-[#a1a1aa] hover:text-white hover:bg-[#18181b] border border-[#27272a] transition cursor-pointer"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          )}
+          <div>
+            <span className="text-blue-500 font-mono text-[10px] tracking-widest uppercase block mb-1">
+              Isolated Sandbox
+            </span>
+            <h1 className="font-display font-bold text-3xl text-white tracking-tight flex items-center gap-2">
+              Secure Nodes Dashboard
+            </h1>
+            <p className="text-[#a1a1aa] text-xs mt-1">
+              Analyzing index workspace for <span className="text-[#fafafa] font-semibold">{currentUser.name}</span>. Encryption protocol active.
+            </p>
+          </div>
         </div>
 
         <button
