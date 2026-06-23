@@ -1,0 +1,40 @@
+services:
+  # 1. Database Engine (PostgreSQL)
+  postgres:
+    image: postgres:15-alpine
+    container_name: second_brain_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: USER
+      POSTGRES_PASSWORD: PASSWORD
+      POSTGRES_DB: second_brain
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - second_brain_network
+
+  # 2. Next.js Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: second_brain_app
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    networks:
+      - second_brain_network
+
+volumes:
+  pgdata:
+    name: second_brain_pgdata
+
+networks:
+  second_brain_network:
+    driver: bridge

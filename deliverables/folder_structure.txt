@@ -1,0 +1,49 @@
+================================================================================
+SECOND BRAIN - PRODUCTION NEXT.JS (APP ROUTER) COMPLETE DIRECTORY SKELETON
+================================================================================
+
+/
+├── prisma/
+│   └── schema.prisma             # Core relational PostgreSQL database mappings
+│
+├── src/
+│   ├── app/                      # Next.js App Router root folder
+│   │   ├── layout.tsx            # Global layout setting theme providers
+│   │   ├── page.tsx              # Unauthenticated landing page & authentication triggers
+│   │   │
+│   │   ├── api/                  # Core Server-Side API proxies
+│   │   │   └── auth/[...nextauth]/# NextAuth.js OAuth configuration setups
+│   │   │       └── route.ts
+│   │   │
+│   │   └── dashboard/            # Protected workspace directory
+│   │       ├── page.tsx          # Main Dashboard entry point (Renders search & grids)
+│   │       ├── layout.tsx        # Dashboard shell checking matching user session
+│   │       └── loading.tsx       # Tailwind shimmer skeletons for seamless transitions
+│   │
+│   ├── actions/                  # Secure Next.js Server Actions (use server)
+│   │   ├── note.ts               # Core secure actions (CRUD + IDOR controls)
+│   │   └── tag.ts                # General analytical counts and labels grouping
+│   │
+│   ├── components/               # High-fidelity shared React modules (use client)
+│   │   ├── ui/                   # Shadcn UI base definitions (Primitives)
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── input.tsx
+│   │   │   └── dialog.tsx
+│   │   │
+│   │   ├── sidebar.tsx           # Dynamic left navigational bar (stats & tag filters)
+│   │   ├── notes-grid.tsx        # Responsive grid layout with search queries and transitions
+│   │   ├── note-card.tsx         # Bento design note card containing custom visual borders
+│   │   └── rich-editor.tsx       # Tiptap, Novel, or Markdown editing panel
+│   │
+│   ├── lib/                      # Base shared utility definitions
+│   │   ├── db.ts                 # Prisma Client wrapper (Prevent multiple instance counts)
+│   │   ├── auth.ts               # NextAuth session verification middleware utilities
+│   │   └── utils.ts              # cn() tailwind merger function
+│   │
+│   └── types/                    # Shared typings definitions
+│       └── index.ts
+│
+├── .env                          # Local secrets declarations (Prisma connection, Client Secret)
+├── tailwind.config.ts            # General animations and borders extensions
+└── tsconfig.json                 # Shared Typescript mappings

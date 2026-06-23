@@ -1,0 +1,6 @@
+{
+  "name": "Second Brain",
+  "description": "A production-grade developer-oriented Second Brain note-taking application with dark mode dashboard, tags, real-time statistics, and an editor with markdown styling.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
